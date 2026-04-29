@@ -16,8 +16,14 @@ def predict():
     text = request.form["text"]
     data = vectorizer.transform([text])
     prediction = model.predict(data)[0]
+    if prediction == "positive":
+        result = "😊 Positive Review"
+    else:
+        result = "😞 Negative Review"
+
     prob = model.predict_proba(data).max()
-    return render_template("index.html", prediction=prediction, prob=round(prob,2))
+
+    return render_template("index.html", prediction=result, prob=round(prob, 2))
 
 if __name__ == "__main__":
     app.run(debug=True)
